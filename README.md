@@ -1,7 +1,7 @@
 # Environment Sensors
 
 
-Flutter plugin for accessing ambient temperature, relative humidity, ambient light, and barometric pressure sensors of an Android device.
+Flutter plugin for accessing ambient temperature, relative humidity, ambient light, and barometric pressure sensors of a device.
 ## Install
 Add ```environment_sensors``` as a dependency in  `pubspec.yaml`.
 For help on adding as a dependency, view the [documentation](https://flutter.io/using-packages/).
@@ -22,6 +22,9 @@ Get sensor stream
 final environmentSensors = EnvironmentSensors();
 
   environmentSensors.pressure.listen((pressure) {
+    //Pressure in Millibars
     print(pressure.toString());
   });
 ```
+
+

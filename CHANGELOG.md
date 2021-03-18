@@ -1,3 +1,7 @@
+
+## 0.2.0
+* Add IOS Support
+
 ## 0.1.1
 * Convert Documentation to DartDoc Format
 ## 0.1.0
