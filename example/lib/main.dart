@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return CircularProgressIndicator();
                       return Text(
-                          'The Current Humidity is: ${snapshot.data.toStringAsFixed(2)}%');
+                          'The Current Humidity is: ${snapshot.data?.toStringAsFixed(2)}%');
                     })
                 : Text('No relative humidity sensor found'),
             (_humidityAvailable)
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return CircularProgressIndicator();
                       return Text(
-                          'The Current Temperature is: ${snapshot.data.toStringAsFixed(2)}');
+                          'The Current Temperature is: ${snapshot.data?.toStringAsFixed(2)}');
                     })
                 : Text('No temperature sensor found'),
             (_lightAvailable)
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return CircularProgressIndicator();
                       return Text(
-                          'The Current Light is: ${snapshot.data.toStringAsFixed(2)}');
+                          'The Current Light is: ${snapshot.data?.toStringAsFixed(2)}');
                     })
                 : Text('No light sensor found'),
             (_pressureAvailable)
@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return CircularProgressIndicator();
                       return Text(
-                          'The Current Pressure is: ${snapshot.data.toStringAsFixed(2)}');
+                          'The Current Pressure is: ${snapshot.data?.toStringAsFixed(2)}');
                     })
                 : Text('No pressure sensure found'),
             //ElevatedButton(onPressed: initPlatformState , child: Text('Get'))
