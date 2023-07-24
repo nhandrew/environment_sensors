@@ -1,4 +1,7 @@
 
+## 0.3.0
+* Update Android SDK
+
 ## 0.2.0
 * Add IOS Support
 
