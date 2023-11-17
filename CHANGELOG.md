@@ -1,4 +1,4 @@
-## 0.2.2
+## 0.3.1
 * Stop sending events when detached from flutter
 
 ## 0.3.0
