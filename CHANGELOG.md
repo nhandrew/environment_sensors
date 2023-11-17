@@ -1,3 +1,5 @@
+## 0.2.2
+* Stop sending events when detached from flutter
 
 ## 0.2.0
 * Add IOS Support
