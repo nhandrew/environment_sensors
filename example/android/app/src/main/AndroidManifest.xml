@@ -1,9 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.julow.environment_sensors_example">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
    <application
         android:label="environment_sensors_example"
         android:icon="@mipmap/ic_launcher">
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

@@ -1,6 +1,9 @@
 ## 0.2.2
 * Stop sending events when detached from flutter
 
+## 0.3.0
+* Update Android SDK
+
 ## 0.2.0
 * Add IOS Support
 

@@ -35,7 +35,7 @@ class EnvironmentSensors {
   ///Stream of pressure readings
   Stream<double>? _pressureEvents;
 
-  ///Check for the availabilitity of device sensor by sensor type.
+  ///Check for the availability of device sensor by sensor type.
   Future<bool> getSensorAvailable(SensorType sensorType) async {
     if (sensorType == SensorType.AmbientTemperature)
       return await _methodChannel.invokeMethod('isSensorAvailable', 13);
