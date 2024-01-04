@@ -24,8 +24,11 @@ public class SwiftEnvironmentSensorsPlugin: NSObject, FlutterPlugin {
 
           let pressureChannel = FlutterEventChannel(name: PRESSURE_CHANNEL_NAME, binaryMessenger: registrar.messenger())
           pressureChannel.setStreamHandler(pressureStreamHandler)
-
       }
+
+  public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
+       pressureStreamHandler.stop()
+     }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
@@ -72,8 +75,11 @@ class PressureStreamHandler: NSObject, FlutterStreamHandler {
     }
     
     func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        altimeter.stopRelativeAltitudeUpdates()
+        stop()
         return nil
     }
-    
+
+    func stop() {
+        altimeter.stopRelativeAltitudeUpdates()
+    }
 }
