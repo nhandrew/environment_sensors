@@ -2,14 +2,14 @@ group 'com.julow.environment_sensors'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.6.21'
+    ext.kotlin_version = '2.1.10'
     repositories {
         google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.android.tools.build:gradle:8.6.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -25,14 +25,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     namespace 'com.julow.environment_sensors'
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 26
     }
     kotlinOptions {
         jvmTarget = '11'

@@ -16,7 +16,6 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** EnvironmentSensorsPlugin */
 class EnvironmentSensorsPlugin : FlutterPlugin, MethodCallHandler {
@@ -46,14 +45,6 @@ class EnvironmentSensorsPlugin : FlutterPlugin, MethodCallHandler {
     private var lightStreamHandler: StreamHandlerImpl? = null
     private var pressureStreamHandler: StreamHandlerImpl? = null
     private var batteryStreamHandler: BatteryStreamHandler? = null
-
-    companion object {
-        @JvmStatic
-        fun registerWith(registrar: Registrar) {
-            val plugin = EnvironmentSensorsPlugin()
-            plugin.setupEventChannels(registrar.context(), registrar.messenger())
-        }
-    }
 
     override fun onAttachedToEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         val context = binding.applicationContext
