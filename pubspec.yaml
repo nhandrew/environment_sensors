@@ -1,6 +1,6 @@
 name: environment_sensors
 description: A Flutter plugin for reading ambient temperature,relative humidity, ambient light, and barometric pressure from a device.
-version: 0.3.0
+version: 0.3.1
 homepage: https://github.com/nhandrew/environment_sensors
 
 environment:
