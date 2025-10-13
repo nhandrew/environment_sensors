@@ -22,6 +22,10 @@ const EventChannel _lightEventChannel =
 const EventChannel _pressureEventChannel =
     EventChannel('environment_sensors/pressure');
 
+///Event channel for battery temperature readings
+const EventChannel _batteryTemperatureEventChannel =
+    EventChannel('environment_sensors/battery');
+
 class EnvironmentSensors {
   ///Stream of relative humidity readings
   Stream<double>? _humidityEvents;
@@ -35,6 +39,10 @@ class EnvironmentSensors {
   ///Stream of pressure readings
   Stream<double>? _pressureEvents;
 
+  ///Stream of battery temperature readings
+  ///Only available on Android
+  Stream<double>? _batteryTemperatureEvents;
+
   ///Check for the availability of device sensor by sensor type.
   Future<bool> getSensorAvailable(SensorType sensorType) async {
     if (sensorType == SensorType.AmbientTemperature)
@@ -45,6 +53,8 @@ class EnvironmentSensors {
       return await _methodChannel.invokeMethod('isSensorAvailable', 5);
     if (sensorType == SensorType.Pressure)
       return await _methodChannel.invokeMethod('isSensorAvailable', 6);
+    if (sensorType == SensorType.Battery)
+      return await _methodChannel.invokeMethod('isSensorAvailable', 7);
 
     return false;
   }
@@ -88,7 +98,18 @@ class EnvironmentSensors {
     }
     return _pressureEvents!;
   }
+
+  ///Gets the battery temperature reading from device sensor, if present
+///Only available on Android
+  Stream<double> get battery {
+    if (_batteryTemperatureEvents == null) {
+      _batteryTemperatureEvents = _batteryTemperatureEventChannel
+          .receiveBroadcastStream()
+          .map((event) => double.parse(event.toString()));
+    }
+    return _batteryTemperatureEvents!;
+  }
 }
 
 ///An enum for defining device types when checking for sensor availability
-enum SensorType { AmbientTemperature, Humidity, Light, Pressure }
+enum SensorType { AmbientTemperature, Humidity, Light, Pressure, Battery }
