@@ -1,103 +1,100 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:environment_sensors/environment_sensors.dart';
+import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool _tempAvailable = false;
-  bool _humidityAvailable = false;
-  bool _lightAvailable = false;
-  bool _pressureAvailable = false;
-  final environmentSensors = EnvironmentSensors();
-
-  @override
-  void initState() {
-    super.initState();
-    environmentSensors.pressure.listen((pressure) {
-      print(pressure.toString());
-    });
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    bool tempAvailable;
-    bool humidityAvailable;
-    bool lightAvailable;
-    bool pressureAvailable;
-
-    tempAvailable = await environmentSensors
-        .getSensorAvailable(SensorType.AmbientTemperature);
-    humidityAvailable =
-        await environmentSensors.getSensorAvailable(SensorType.Humidity);
-    lightAvailable =
-        await environmentSensors.getSensorAvailable(SensorType.Light);
-    pressureAvailable =
-        await environmentSensors.getSensorAvailable(SensorType.Pressure);
-
-    setState(() {
-      _tempAvailable = tempAvailable;
-      _humidityAvailable = humidityAvailable;
-      _lightAvailable = lightAvailable;
-      _pressureAvailable = pressureAvailable;
-    });
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Environment Sensors'),
+      title: 'Environment Sensors Example',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const EnvironmentSensorsDemo(),
+    );
+  }
+}
+
+class EnvironmentSensorsDemo extends StatefulWidget {
+  const EnvironmentSensorsDemo({super.key});
+
+  @override
+  State<EnvironmentSensorsDemo> createState() => _EnvironmentSensorsDemoState();
+}
+
+class _EnvironmentSensorsDemoState extends State<EnvironmentSensorsDemo> {
+  String _status = 'Initializing...';
+
+  @override
+  void initState() {
+    super.initState();
+    _checkSensors();
+  }
+
+  Future<void> _checkSensors() async {
+    try {
+      // Check if sensors are available
+      final isAvailable = await EnvironmentSensors().getSensorAvailable(
+        SensorType.AmbientTemperature,
+      );
+
+      if (isAvailable) {
+        setState(() {
+          _status = 'Environment sensors are available!';
+        });
+      } else {
+        setState(() {
+          _status = 'Environment sensors are not available on this device.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _status = 'Error: $e';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Environment Sensors Demo'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.sensors, size: 64, color: Colors.deepPurple),
+              const SizedBox(height: 24),
+              const Text(
+                'Environment Sensors Plugin',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                _status,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _checkSensors,
+                child: const Text('Check Again'),
+              ),
+            ],
           ),
-          body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            (_tempAvailable)
-                ? StreamBuilder<double>(
-                    stream: environmentSensors.humidity,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return CircularProgressIndicator();
-                      return Text(
-                          'The Current Humidity is: ${snapshot.data?.toStringAsFixed(2)}%');
-                    })
-                : Text('No relative humidity sensor found'),
-            (_humidityAvailable)
-                ? StreamBuilder<double>(
-                    stream: environmentSensors.temperature,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return CircularProgressIndicator();
-                      return Text(
-                          'The Current Temperature is: ${snapshot.data?.toStringAsFixed(2)}');
-                    })
-                : Text('No temperature sensor found'),
-            (_lightAvailable)
-                ? StreamBuilder<double>(
-                    stream: environmentSensors.light,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return CircularProgressIndicator();
-                      return Text(
-                          'The Current Light is: ${snapshot.data?.toStringAsFixed(2)}');
-                    })
-                : Text('No light sensor found'),
-            (_pressureAvailable)
-                ? StreamBuilder<double>(
-                    stream: environmentSensors.pressure,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return CircularProgressIndicator();
-                      return Text(
-                          'The Current Pressure is: ${snapshot.data?.toStringAsFixed(2)}');
-                    })
-                : Text('No pressure sensure found'),
-            //ElevatedButton(onPressed: initPlatformState , child: Text('Get'))
-          ])),
+        ),
+      ),
     );
   }
 }
